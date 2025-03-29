@@ -1,4 +1,4 @@
-package org.acme.audit;
+package audit;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

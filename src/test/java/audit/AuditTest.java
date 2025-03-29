@@ -1,8 +1,5 @@
 package audit;
 
-import org.acme.audit.AddAuthenticationToAuditFileUseCase;
-import org.acme.audit.AuditClock;
-import org.acme.audit.AuditDirectory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
