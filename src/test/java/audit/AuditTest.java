@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class AuditTest {
+    public static final LocalDateTime JANUARY_1_ST_AT_3_PM_45 = LocalDateTime.of(2025, 1, 1, 15, 43);
     @TempDir
     Path tempDirectory;
 
@@ -47,9 +48,8 @@ public class AuditTest {
     }
 
     @Test
-    void shouldAddUserNameAndDateOnAuditFile() throws IOException {
-        LocalDateTime january1stAt3PM45 = LocalDateTime.of(2025, 1, 1, 15, 43);
-        AuditClock.change(january1stAt3PM45);
+    void givenAuthenticationOfAUser_shouldAddUserNameAndDateOnAuditFile() throws IOException {
+        AuditClock.change(JANUARY_1_ST_AT_3_PM_45);
         Path directory = tempDirectory.resolve("audit");
         Files.createDirectory(directory);
 
@@ -58,7 +58,7 @@ public class AuditTest {
         Path auditFile = directory.resolve("auditFile_1.txt");
         Assertions.assertTrue(Files.exists(auditFile));
         String content = Files.readString(auditFile);
-        Assertions.assertEquals("azucher "+ january1stAt3PM45.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME), content);
+        Assertions.assertEquals("azucher "+ JANUARY_1_ST_AT_3_PM_45.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME), content);
     }
 
     private static void makeFileFullOfLines(Path auditFile1) throws IOException {
