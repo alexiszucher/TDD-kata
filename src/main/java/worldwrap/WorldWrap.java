@@ -12,20 +12,25 @@ public class WorldWrap {
         if (phrase.length() < columnNumber) {
             return phrase;
         }
-        List<String> words = Arrays.asList(phrase.split(" "));
+        List<String> words = Arrays.asList(phrase.split(SPACE_BETWEEN_WORD));
+
         int activeLineCharacterNumber = words.get(FIRST_WORD).length();
         StringBuilder result = new StringBuilder(words.get(FIRST_WORD));
+
         for (int index = 1; index < words.size(); index++) {
             String word = words.get(index);
-            int potentialActiveLineCharacterNumber = activeLineCharacterNumber + SPACE_BETWEEN_WORD.length() + word.length();
-            if (potentialActiveLineCharacterNumber <= columnNumber) {
+            if (isWordCanBeInTheLine(columnNumber, activeLineCharacterNumber, word)) {
                 result.append(SPACE_BETWEEN_WORD).append(word);
-                activeLineCharacterNumber = SPACE_BETWEEN_WORD.length() + word.length();
+                activeLineCharacterNumber += SPACE_BETWEEN_WORD.length() + word.length();
             } else {
                 result.append(LINE_BREAK).append(word);
                 activeLineCharacterNumber = word.length();
             }
         }
         return result.toString();
+    }
+
+    private static boolean isWordCanBeInTheLine(int columnNumber, int activeLineCharacterNumber, String word) {
+        return activeLineCharacterNumber + SPACE_BETWEEN_WORD.length() + word.length() <= columnNumber;
     }
 }
