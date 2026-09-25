@@ -13,50 +13,50 @@ public class TennisGameTest {
     @Test
     void given1scoreEach_shouldBeFifteenAll() {
         TennisGame tennisGame = new TennisGame();
-        tennisGame.wonPointPlayer1();
-        tennisGame.wonPointPlayer2();
+        tennisGame.unPointPourJoueur1();
+        tennisGame.unPointPourJoueur2();
         Assertions.assertEquals("Fifteen-All", tennisGame.score());
     }
 
     @Test
     void given1And0score_shouldBeFifteenLove() {
         TennisGame tennisGame = new TennisGame();
-        tennisGame.wonPointPlayer1();
+        tennisGame.unPointPourJoueur1();
         Assertions.assertEquals("Fifteen-Love", tennisGame.score());
     }
 
     @Test
     void given2And1score_shouldBeFifteenLove() {
         TennisGame tennisGame = new TennisGame();
-        tennisGame.wonPointPlayer1();
-        tennisGame.wonPointPlayer1();
-        tennisGame.wonPointPlayer2();
+        tennisGame.unPointPourJoueur1();
+        tennisGame.unPointPourJoueur1();
+        tennisGame.unPointPourJoueur2();
         Assertions.assertEquals("Thirty-Fifteen", tennisGame.score());
     }
 
     @Test
     void given3And2score_shouldBeThirtyAll() {
         TennisGame tennisGame = new TennisGame();
-        tennisGame.wonPointPlayer1();
-        tennisGame.wonPointPlayer1();
-        tennisGame.wonPointPlayer1();
-        tennisGame.wonPointPlayer2();
-        tennisGame.wonPointPlayer2();
+        tennisGame.unPointPourJoueur1();
+        tennisGame.unPointPourJoueur1();
+        tennisGame.unPointPourJoueur1();
+        tennisGame.unPointPourJoueur2();
+        tennisGame.unPointPourJoueur2();
         Assertions.assertEquals("Forty-Thirty", tennisGame.score());
     }
 
     @Test
     void given3scoreEachOrMore_shouldBeDeuce() {
         TennisGame tennisGame = new TennisGame();
-        tennisGame.wonPointPlayer1();
-        tennisGame.wonPointPlayer1();
-        tennisGame.wonPointPlayer1();
-        tennisGame.wonPointPlayer2();
-        tennisGame.wonPointPlayer2();
-        tennisGame.wonPointPlayer2();
+        tennisGame.unPointPourJoueur1();
+        tennisGame.unPointPourJoueur1();
+        tennisGame.unPointPourJoueur1();
+        tennisGame.unPointPourJoueur2();
+        tennisGame.unPointPourJoueur2();
+        tennisGame.unPointPourJoueur2();
         Assertions.assertEquals("Deuce", tennisGame.score());
-        tennisGame.wonPointPlayer1();
-        tennisGame.wonPointPlayer2();
+        tennisGame.unPointPourJoueur1();
+        tennisGame.unPointPourJoueur2();
         Assertions.assertEquals("Deuce", tennisGame.score());
     }
 }

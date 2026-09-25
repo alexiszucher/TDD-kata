@@ -16,10 +16,10 @@ public class TennisGame {
     private int scorePlayer2 = 0;
 
     public String score() {
-        if (scorePlayer1 >= 3 && hasSameScore())
+        if (scorePlayer1 >= 3 && aUnScoreEgal())
             return DEUCE;
 
-        if (hasSameScore())
+        if (aUnScoreEgal())
             return construireScoreEgal();
         return points.get(scorePlayer1) + SEPARATOR + points.get(scorePlayer2);
     }
@@ -29,15 +29,15 @@ public class TennisGame {
         return points.get(scorePlayer1) + SEPARATOR + "All";
     }
 
-    private boolean hasSameScore() {
+    private boolean aUnScoreEgal() {
         return scorePlayer1 == scorePlayer2;
     }
 
-    public void wonPointPlayer1() {
+    public void unPointPourJoueur1() {
         this.scorePlayer1++;
     }
 
-    public void wonPointPlayer2() {
+    public void unPointPourJoueur2() {
         this.scorePlayer2++;
     }
 }
