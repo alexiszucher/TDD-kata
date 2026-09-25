@@ -1,0 +1,8 @@
+Énoncé : Service de calcul de prix d'un panier client
+
+Dévlopper un service qui :
+- Vérifie qu'il y a des choses dans le panier
+    - Si rien : Erreur
+- Calcule le prix total
+   - 10% si total > 100€
+   - 5% supplémentaires si client fidèle
