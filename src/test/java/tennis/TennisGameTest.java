@@ -60,10 +60,39 @@ public class TennisGameTest {
         Assertions.assertEquals("Win for Player2", tennisGame.score());
 
         tennisGame = new TennisGame();
-        ajouterPointPourJoueur2(5, tennisGame);
-        ajouterPointPourJoueur1(7, tennisGame);
+        ajouterPointPourJoueur2(3, tennisGame);
+        ajouterPointPourJoueur1(3, tennisGame);
+        tennisGame.unPointPourJoueur1();
+        tennisGame.unPointPourJoueur2();
+        tennisGame.unPointPourJoueur1();
+        tennisGame.unPointPourJoueur2();
+        tennisGame.unPointPourJoueur1();
+        tennisGame.unPointPourJoueur1();
+        // 2 point d'écart pour le joueur 1, il gagne
         Assertions.assertEquals("Win for Player1", tennisGame.score());
     }
+
+     @Test
+     void given1PointDifferenceAndPlayerHasScoreEqualOrMoreThan4_shouldAPlayerHasAdvantage() {
+         TennisGame tennisGame = new TennisGame();
+         ajouterPointPourJoueur1(3, tennisGame);
+         ajouterPointPourJoueur2(3, tennisGame);
+         // Joueur 1 atteint 4, 1 point d'ecart avec le joueur 2 : Avantage Joueur 1
+         tennisGame.unPointPourJoueur1();
+
+         Assertions.assertEquals("Advantage Player1", tennisGame.score());
+
+         ajouterPointPourJoueur2(2, tennisGame);
+         Assertions.assertEquals("Advantage Player2", tennisGame.score());
+     }
+
+     @Test
+     void shouldNotBeAbleToWonPointOnceWeHaveAWinner() {
+         TennisGame tennisGame = new TennisGame();
+         ajouterPointPourJoueur1(4, tennisGame);
+         Assertions.assertEquals("Win for Player1", tennisGame.score());
+         Assertions.assertThrows(IllegalStateException.class, tennisGame::unPointPourJoueur2);
+     }
 
     private static void ajouterPointPourJoueur1(int points, TennisGame tennisGame) {
         for (int i = 1; i <= points; i++) {

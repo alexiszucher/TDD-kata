@@ -17,8 +17,11 @@ public class TennisGame {
     private String winner = "";
 
     public String score() {
-        if (!winner.isEmpty())
+        if (unGagnantEstPresent())
             return "Win for "+winner;
+
+        if (!calculerAvantage().isEmpty())
+            return "Advantage "+calculerAvantage();
 
         if (scorePlayer1 >= 3 && aUnScoreEgal())
             return DEUCE;
@@ -39,22 +42,46 @@ public class TennisGame {
 
     public void unPointPourJoueur1() {
         this.scorePlayer1++;
-        mettreGagnantSiPresent();
+        calculerGagnantEtAvantage();
     }
 
     public void unPointPourJoueur2() {
+        if (unGagnantEstPresent())
+            throw new IllegalStateException();
+
+
         this.scorePlayer2++;
-        mettreGagnantSiPresent();
+        calculerGagnantEtAvantage();
     }
 
-    private void mettreGagnantSiPresent() {
-        if (aGagne(scorePlayer1, scorePlayer2))
-            this.winner = "Player1";
-        else if (aGagne(scorePlayer2, scorePlayer1))
-            this.winner = "Player2";
+    private boolean unGagnantEstPresent() {
+        return !winner.isEmpty();
+    }
+
+    private String calculerAvantage() {
+        if (scorePlayer1 > 3 || scorePlayer2 > 3) {
+            if (aAvantage(scorePlayer1, scorePlayer2))
+                return  "Player1";
+            else if (aAvantage(scorePlayer2, scorePlayer1))
+                return "Player2";
+        }
+        return "";
+    }
+
+    private void calculerGagnantEtAvantage() {
+        if (scorePlayer1 > 3 || scorePlayer2 > 3) {
+            if (aGagne(scorePlayer1, scorePlayer2))
+                this.winner = "Player1";
+            else if (aGagne(scorePlayer2, scorePlayer1))
+                this.winner = "Player2";
+        }
     }
 
     private boolean aGagne(int scoreJoueur, int scoreAdversaire) {
-        return scoreJoueur >= 4 && scoreJoueur - scoreAdversaire >= 2;
+        return scoreJoueur - scoreAdversaire >= 2;
+    }
+
+    private boolean aAvantage(int scoreJoueur, int scoreAdversaire) {
+        return scoreJoueur - scoreAdversaire == 1;
     }
 }
