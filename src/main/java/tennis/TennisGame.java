@@ -1,6 +1,7 @@
 package tennis;
 
 import java.util.Map;
+import java.util.function.BiPredicate;
 
 public class TennisGame {
     private static final String SEPARATOR = "-";
@@ -18,19 +19,20 @@ public class TennisGame {
 
     public String score() {
         if (unGagnantEstPresent())
-            return "Win for "+winner;
+            return "Win for " + winner;
 
-        if (!calculerAvantage().isEmpty())
-            return "Advantage "+calculerAvantage();
+        String enAvantage = trouverJoueur(this::aAvantage);
+        if (!enAvantage.isEmpty())
+            return "Advantage " + enAvantage;
 
         if (scorePlayer1 >= 3 && aUnScoreEgal())
             return DEUCE;
 
         if (aUnScoreEgal())
             return construireScoreEgal();
+
         return points.get(scorePlayer1) + SEPARATOR + points.get(scorePlayer2);
     }
-
 
     private String construireScoreEgal() {
         return points.get(scorePlayer1) + SEPARATOR + "All";
@@ -41,40 +43,34 @@ public class TennisGame {
     }
 
     public void unPointPourJoueur1() {
-        this.scorePlayer1++;
-        calculerGagnantEtAvantage();
+        marquerPoint(() -> this.scorePlayer1++);
     }
 
     public void unPointPourJoueur2() {
+        marquerPoint(() -> this.scorePlayer2++);
+    }
+
+    private void marquerPoint(Runnable incrementer) {
         if (unGagnantEstPresent())
             throw new IllegalStateException();
-
-
-        this.scorePlayer2++;
-        calculerGagnantEtAvantage();
+        incrementer.run();
+        String gagnant = trouverJoueur(this::aGagne);
+        if (!gagnant.isEmpty())
+            this.winner = gagnant;
     }
 
     private boolean unGagnantEstPresent() {
         return !winner.isEmpty();
     }
 
-    private String calculerAvantage() {
-        if (scorePlayer1 > 3 || scorePlayer2 > 3) {
-            if (aAvantage(scorePlayer1, scorePlayer2))
-                return  "Player1";
-            else if (aAvantage(scorePlayer2, scorePlayer1))
-                return "Player2";
-        }
+    private String trouverJoueur(BiPredicate<Integer, Integer> condition) {
+        if (scorePlayer1 <= 3 && scorePlayer2 <= 3)
+            return "";
+        if (condition.test(scorePlayer1, scorePlayer2))
+            return "Player1";
+        if (condition.test(scorePlayer2, scorePlayer1))
+            return "Player2";
         return "";
-    }
-
-    private void calculerGagnantEtAvantage() {
-        if (scorePlayer1 > 3 || scorePlayer2 > 3) {
-            if (aGagne(scorePlayer1, scorePlayer2))
-                this.winner = "Player1";
-            else if (aGagne(scorePlayer2, scorePlayer1))
-                this.winner = "Player2";
-        }
     }
 
     private boolean aGagne(int scoreJoueur, int scoreAdversaire) {
