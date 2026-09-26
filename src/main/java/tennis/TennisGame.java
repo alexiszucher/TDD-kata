@@ -14,8 +14,12 @@ public class TennisGame {
 
     private int scorePlayer1 = 0;
     private int scorePlayer2 = 0;
+    private String winner = "";
 
     public String score() {
+        if (!winner.isEmpty())
+            return "Win for "+winner;
+
         if (scorePlayer1 >= 3 && aUnScoreEgal())
             return DEUCE;
 
@@ -35,9 +39,22 @@ public class TennisGame {
 
     public void unPointPourJoueur1() {
         this.scorePlayer1++;
+        mettreGagnantSiPresent();
     }
 
     public void unPointPourJoueur2() {
         this.scorePlayer2++;
+        mettreGagnantSiPresent();
+    }
+
+    private void mettreGagnantSiPresent() {
+        if (aGagne(scorePlayer1, scorePlayer2))
+            this.winner = "Player1";
+        else if (aGagne(scorePlayer2, scorePlayer1))
+            this.winner = "Player2";
+    }
+
+    private boolean aGagne(int scoreJoueur, int scoreAdversaire) {
+        return scoreJoueur >= 4 && scoreJoueur - scoreAdversaire >= 2;
     }
 }
